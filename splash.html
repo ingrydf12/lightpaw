@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightpaw - Boas-vindas</title>
+</head>
+<body>
+    <main>
+        <aside id="vault-selection">
+            <h3>Suas coletâneas</h3>
+            <!-- Lista de coletâneas -->
+            <div id="vault-list">
+                <button onclick="selecionarCofre('Pessoal')">Cofre Pessoal</button>
+                <button onclick="selecionarCofre('Trabalho')">Cofre Trabalho</button>
+            </div>
+            
+            <hr>
+            
+            <button id="btn-novo-cofre" onclick="criarColetanea()">
+                + Criar nova coletânea
+            </button>
+        </aside>
+
+        <section>
+            <img src="/logotipo_lightpaw.png" alt="Logo Lightpaw">
+            <p>Escolha uma coletânea para começar ou crie uma nova para organizar suas notas.</p>
+        </section>
+    </main>
+
+    <script type="module">
+        // Importa o invoke do Tauri
+        const { invoke } = window.__TAURI__.core;
+
+        window.selecionarColetânea = async (nome) => {
+            console.log("Abrindo cofre:", nome);
+            await invoke('open_main_app', { cofreNome: nome });
+        };
+
+        window.criarColetanea = async () => {
+            const nome = prompt("Digite o nome do novo cofre (pasta de notas):");
+            
+            if (nome && nome.trim() !== "") {
+                // Genérico, por enquanto só abre o cofre mas vamos passar aqui a criação via rust talvez
+                await invoke('open_main_app', { cofreNome: nome.trim() });
+            } else if (nome !== null) {
+                alert("O nome do cofre não pode ser vazio.");
+            }
+        };
+    </script>
+
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; margin: 0; background: #1a1a1a; color: white; }
+        main { display: flex; gap: 40px; align-items: center; justify-content: center; flex: 1; }
+        aside { background: #2a2a2a; border-radius: 0 10px 10px 0; padding: 0 0.5rem; min-width: 200px; height: 100%; justify-content: center; display: flex; flex-direction: column;}
+        button { display: block; width: 100%; margin: 10px 0; padding: 10px; cursor: pointer; background: #4a4a4a; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #666; }
+        #btn-novo-cofre { background: #3d5afe; font-weight: bold; }
+        img { max-width: 300px; }
+    </style>
+</body>
+</html>
