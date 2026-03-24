@@ -15,7 +15,7 @@
         "label": "main",
         "visible": false,
         "url": "index.html",
-        "title": "lightpaw",
+        "title": "Lightpaw",
         "width": 800,
         "height": 600,
         "resizable": true,
@@ -33,6 +33,21 @@
     "security": {
       "csp": null
     }
+  },
+  "Theme": {
+    "description": "System theme.",
+    "oneOf": [
+      {
+        "description": "Light theme.",
+        "type": "string",
+        "enum": ["light_mode"]
+      },
+      {
+        "description": "Dark theme.",
+        "type": "string",
+        "enum": ["dark_mode"]
+      }
+    ]
   },
   "bundle": {
     "active": true,

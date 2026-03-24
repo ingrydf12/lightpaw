@@ -2,20 +2,8 @@
 
 use tauri::{Manager, WindowEvent};
 use tauri::Emitter;
-
-#[tauri::command]
-async fn open_main_app(app: tauri::AppHandle, cofre_nome: String) {
-    println!("Abrindo cofre: {}", cofre_nome);
-    
-    if let Some(splash) = app.get_webview_window("splashscreen") {
-        splash.close().unwrap();
-    }
-
-    if let Some(main) = app.get_webview_window("main") {
-        main.show().unwrap();
-        let _ = main.emit("setup-cofre", cofre_nome);
-    }
-}
+mod open_collection;
+use note_collection::open_main_app;
 
 fn main() {
     tauri::Builder::default()
