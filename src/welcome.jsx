@@ -1,18 +1,23 @@
+import { useState } from "react";
 import LiquidEther from "./third-party/liquidEther";
-import { invoke } from "@tauri-apps/api/core";
+import coletaneaService from "./service/coletaneaService";
+import newColetaneaInputComponent from "./components/ui/createColetanea/newColetaneaComponent";
 
-// Passagem direta do invoke já que é exclusivo do desktop
 const WelcomeScreen = () => {
+  const [showCreateCollect, setShowCreateCollect] = useState(false);
+
   const selecionarColetanea = async (nome) => {
-    await invoke("open_main_app", { cofreNome: nome });
+    await coletaneaService.abrir(nome);
   };
 
-  const criarColetanea = async () => {
-    // TODO: Chamar o componente de INPUT do COFRE (create)
-    const nome = prompt("Digite o nome do novo cofre:");
-    if (nome && nome.trim() !== "") {
-      await invoke("open_main_app", { cofreNome: nome.trim() });
-    }
+  const criarColetanea = () => {
+    setShowCreateCollect(true);
+  };
+
+  const confirmarCriacao = async (nome) => {
+    await coletaneaService.criar(nome);
+    await coletaneaService.abrir(nome);
+    setShowCreateCollect(false);
   };
 
   return (
@@ -49,9 +54,6 @@ const WelcomeScreen = () => {
           takeoverDuration={0.25}
           autoResumeDelay={3000}
           autoRampDuration={0.6}
-          color0="#ff2756"
-          color1="#26c0d4"
-          color2="#F0E6EF"
         />
       </div>
 
@@ -67,13 +69,16 @@ const WelcomeScreen = () => {
       >
         <aside className="vault-sidebar">
           <h3>Suas coletâneas</h3>
-          {/* <button onClick={() => selecionarColetanea("Pessoal")}>
+
+          {/* Exemplo futuro */}
+          {/* 
+          <button onClick={() => selecionarColetanea("Pessoal")}>
             Cofre Pessoal
           </button>
-          <button onClick={() => selecionarColetanea("Trabalho")}>
-            Cofre Trabalho
-          </button> */}
+          */}
+
           <hr className="divider" />
+
           <button className="btn-new" onClick={criarColetanea}>
             + Criar nova coletânea
           </button>
@@ -87,6 +92,13 @@ const WelcomeScreen = () => {
           />
           <p>Escolha ou crie uma coletânea para começar a criar.</p>
         </section>
+
+        {showCreateCollect && (
+          <NewColetaneaInputComponent
+            onCreate={confirmarCriacao}
+            onCancel={() => setShowCreateCollect(false)}
+          />
+        )}
       </main>
 
       <style>{`

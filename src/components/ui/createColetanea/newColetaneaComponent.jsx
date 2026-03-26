@@ -1,10 +1,35 @@
-import React from 'react'
-import "./createColetanea.css"
+import React, { useState } from "react";
 
-const newColetaneaInputComponent = () => {
+const NewColetaneaInputComponent = ({ onCreate, onCancel }) => {
+  const [nome, setNome] = useState("");
+
   return (
-    <div>coletaneaInputComponent</div>
-  )
-}
+    <div className="modal">
+      <div className="modal-box">
+        <h2>Nova Coletânea</h2>
 
-export default newColetaneaInputComponent
+        <input
+          type="text"
+          placeholder="Nome da coletânea"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+
+        <div className="actions">
+          <button onClick={onCancel}>Cancelar</button>
+          <button
+            onClick={() => {
+              if (nome.trim() !== "") {
+                onCreate(nome.trim());
+              }
+            }}
+          >
+            Criar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NewColetaneaInputComponent;

@@ -1,9 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{Manager, WindowEvent};
-use tauri::Emitter;
-mod open_collection;
-use note_collection::open_main_app;
+mod features;
+use crate::features::note_collection::commands::open_main_app; 
 
 fn main() {
     tauri::Builder::default()

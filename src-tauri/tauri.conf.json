@@ -34,21 +34,6 @@
       "csp": null
     }
   },
-  "Theme": {
-    "description": "System theme.",
-    "oneOf": [
-      {
-        "description": "Light theme.",
-        "type": "string",
-        "enum": ["light_mode"]
-      },
-      {
-        "description": "Dark theme.",
-        "type": "string",
-        "enum": ["dark_mode"]
-      }
-    ]
-  },
   "bundle": {
     "active": true,
     "targets": "all",
