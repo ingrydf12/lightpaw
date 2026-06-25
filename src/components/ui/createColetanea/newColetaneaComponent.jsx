@@ -1,35 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
+import { PlusCircle } from "lucide-react";
+import "./createColetanea.css";
 
-const NewColetaneaInputComponent = ({ onCreate, onCancel }) => {
-  const [nome, setNome] = useState("");
+const NewColetaneaComponent = ({
+  label = "Criar nova coletânea",
+  shortcut = "Ctrl N",
+  onClick,
+}) => (
+  <button className="new-coletanea" onClick={onClick}>
+    <span className="new-coletanea__icon">
+      <PlusCircle size={16} strokeWidth={1.8} />
+    </span>
+    <span className="new-coletanea__label">{label}</span>
+    {shortcut && <span className="new-coletanea__shortcut">{shortcut}</span>}
+  </button>
+);
 
-  return (
-    <div className="modal">
-      <div className="modal-box">
-        <h2>Nova Coletânea</h2>
-
-        <input
-          type="text"
-          placeholder="Nome da coletânea"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-
-        <div className="actions">
-          <button onClick={onCancel}>Cancelar</button>
-          <button
-            onClick={() => {
-              if (nome.trim() !== "") {
-                onCreate(nome.trim());
-              }
-            }}
-          >
-            Criar
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default NewColetaneaInputComponent;
+export default NewColetaneaComponent;

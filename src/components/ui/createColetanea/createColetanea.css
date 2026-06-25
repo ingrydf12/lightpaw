@@ -1,24 +1,37 @@
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+.new-coletanea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: var(--bg-accent);
+  color: var(--bg-ribbon);
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: filter 0.15s;
+}
+
+.new-coletanea:hover {
+  filter: brightness(1.08);
+}
+
+.new-coletanea__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
 }
 
-.modal-box {
-  background: #111;
-  padding: 20px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 250px;
+.new-coletanea__label {
+  flex: 1;
 }
 
-.actions {
-  display: flex;
-  justify-content: space-between;
+.new-coletanea__shortcut {
+  font-size: 11px;
+  font-family: monospace;
+  opacity: 0.7;
 }

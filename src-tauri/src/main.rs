@@ -2,7 +2,7 @@
 
 use tauri::{Manager, WindowEvent};
 mod features;
-use crate::features::note_collection::commands::open_main_app; 
+use crate::features::note_collection::commands::open_main_app;
 
 fn main() {
     tauri::Builder::default()
@@ -12,7 +12,16 @@ fn main() {
 
             splash.on_window_event(move |event| {
                 if let WindowEvent::Destroyed = event {
-                    app_handle.exit(0); 
+                    // Só encerra o processo se a janela principal não estiver
+                    // visível.
+                    let main_is_visible = app_handle
+                        .get_webview_window("main")
+                        .and_then(|w| w.is_visible().ok())
+                        .unwrap_or(false);
+
+                    if !main_is_visible {
+                        app_handle.exit(0);
+                    }
                 }
             });
 

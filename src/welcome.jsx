@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import LiquidEther from "./third-party/liquidEther";
 import coletaneaService from "./service/coletaneaService";
-import newColetaneaInputComponent from "./components/ui/createColetanea/newColetaneaComponent";
+import NewColetaneaComponent from "./components/ui/createColetanea/newColetaneaComponent";
 
 const WelcomeScreen = () => {
   const [showCreateCollect, setShowCreateCollect] = useState(false);
@@ -18,6 +19,14 @@ const WelcomeScreen = () => {
     await coletaneaService.criar(nome);
     await coletaneaService.abrir(nome);
     setShowCreateCollect(false);
+  };
+  
+  const handleRedirectLanding = async () => {
+    try {
+      await invoke("open_main_app", { cofreNome: "" });
+    } catch (err) {
+      console.error("Falha ao abrir a aplicação:", err);
+    }
   };
 
   return (
@@ -82,6 +91,10 @@ const WelcomeScreen = () => {
           <button className="btn-new" onClick={criarColetanea}>
             + Criar nova coletânea
           </button>
+
+          <button className="generic-link" onClick={handleRedirectLanding}>
+            Iniciar aplicação sem criar uma nova nota
+          </button>
         </aside>
 
         <section className="hero">
@@ -94,7 +107,7 @@ const WelcomeScreen = () => {
         </section>
 
         {showCreateCollect && (
-          <NewColetaneaInputComponent
+          <NewColetaneaComponent
             onCreate={confirmarCriacao}
             onCancel={() => setShowCreateCollect(false)}
           />
